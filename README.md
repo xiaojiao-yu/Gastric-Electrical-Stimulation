@@ -1437,3 +1437,22 @@ self.addEventListener('fetch', e => {
   // 静态资源：缓存优先
   e.respondWith(caches.match(req).then(hit => hit || fetch(req)));
 });
+{
+  "id": "./",
+  "name": "胃电刺激治疗系统 GES-100",
+  "short_name": "胃电刺激",
+  "description": "胃电刺激治疗系统软件界面（原型，仅用于设计评审与可用性测试）",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#eef4f7",
+  "theme_color": "#0e7490",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
