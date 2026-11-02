@@ -1455,4 +1455,7 @@ self.addEventListener('fetch', e => {
     { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
-}
+C:\Users\王榆清\Desktop\胃电刺激用户交互\icons\apple-touch-icon-180.png}
+C:\Users\王榆清\Desktop\胃电刺激用户交互\icons\icon-192.png
+C:\Users\王榆清\Desktop\胃电刺激用户交互\icons\icon-512.png
+C:\Users\王榆清\Desktop\胃电刺激用户交互\icons\icon-maskable-512.png
