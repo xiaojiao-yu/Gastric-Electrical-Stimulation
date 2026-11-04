@@ -731,7 +731,17 @@ function addAudit(actor, action, target, oldV, newV) {
 
 /* ---------- 状态渲染 ---------- */
 const STATE_TXT = { idle: '设备待机', rampup: '软启动中…', running: '治疗进行中', paused: '已暂停', rampdown: '安全停止中…', fault: '故障锁定' };
-function setState(s) { rt.state = s; renderControls(); renderStatus(); }
+/* ---------- 硬件联动（本地桥接 → 单片机 LED） ---------- */
+const HW_URL = 'http://127.0.0.1:8799';
+let hwLast = null;
+function hwSync(state) {
+  const cmd = (state === 'rampup' || state === 'running') ? 'on' : 'off';
+  if (cmd === hwLast) return;
+  hwLast = cmd;
+  fetch(HW_URL + '/' + cmd).catch(() => {});   // 桥接未启动时静默失败，不影响界面
+}
+
+function setState(s) { rt.state = s; renderControls(); renderStatus(); hwSync(s); }
 
 function renderStatus() {
   const b = $('#stBadge');
