@@ -1363,33 +1363,35 @@ function renderAuditTable() {
 let installPrompt = null;
 const btnInstall = $('#btnInstall');
 
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  installPrompt = e;
-  btnInstall.classList.add('show');
-});
+if (btnInstall) {
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    installPrompt = e;
+    btnInstall.classList.add('show');
+  });
 
-btnInstall.addEventListener('click', async () => {
-  if (!installPrompt) {
-    openModal('<h2>安装到手机 / 电脑</h2>' +
-      '<div class="note" style="line-height:1.9">' +
-      '<b>Android（Chrome / Edge）</b>：右上角菜单 → “安装应用”或“添加到主屏幕”。<br>' +
-      '<b>iPhone（Safari）</b>：底部“分享”按钮 → “添加到主屏幕”。<br>' +
-      '<b>Windows（Edge / Chrome）</b>：地址栏右侧的“安装”图标，或菜单 → “应用” → “安装此站点”。<br><br>' +
-      '安装后可从桌面图标直接启动，并以独立窗口运行。</div>' +
-      '<div class="acts"><button class="btn btn-primary" onclick="closeModal()">知道了</button></div>');
-    return;
-  }
-  installPrompt.prompt();
-  const choice = await installPrompt.userChoice;
-  if (choice.outcome === 'accepted') btnInstall.classList.remove('show');
-  installPrompt = null;
-});
+  btnInstall.addEventListener('click', async () => {
+    if (!installPrompt) {
+      openModal('<h2>安装到手机 / 电脑</h2>' +
+        '<div class="note" style="line-height:1.9">' +
+        '<b>Android（Chrome / Edge）</b>：右上角菜单 → “安装应用”或“添加到主屏幕”。<br>' +
+        '<b>iPhone（Safari）</b>：底部“分享”按钮 → “添加到主屏幕”。<br>' +
+        '<b>Windows（Edge / Chrome）</b>：地址栏右侧的“安装”图标，或菜单 → “应用” → “安装此站点”。<br><br>' +
+        '安装后可从桌面图标直接启动，并以独立窗口运行。</div>' +
+        '<div class="acts"><button class="btn btn-primary" onclick="closeModal()">知道了</button></div>');
+      return;
+    }
+    installPrompt.prompt();
+    const choice = await installPrompt.userChoice;
+    if (choice.outcome === 'accepted') btnInstall.classList.remove('show');
+    installPrompt = null;
+  });
 
-window.addEventListener('appinstalled', () => {
-  btnInstall.classList.remove('show');
-  toast('已安装到设备，可从桌面图标直接启动', 'ok');
-});
+  window.addEventListener('appinstalled', () => {
+    btnInstall.classList.remove('show');
+    toast('已安装到设备，可从桌面图标直接启动', 'ok');
+  });
+}
 
 if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
   window.addEventListener('load', () => {
