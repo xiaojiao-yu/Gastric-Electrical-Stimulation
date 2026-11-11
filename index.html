@@ -199,7 +199,7 @@
   .ck-row input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--primary); }
 
   /* toast */
-  #toasts { position: fixed; top: 70px; right: 22px; z-index: 99; display: flex; flex-direction: column; gap: 10px; }
+  #toasts { position: fixed; top: 70px; right: 22px; z-index: 400; display: flex; flex-direction: column; gap: 10px; }
   .toast { background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 10px; font-size: 13.5px; box-shadow: 0 6px 18px rgba(0,0,0,.25); animation: tin .25s; max-width: 340px; }
   .toast.ok { background: var(--ok); } .toast.warn { background: var(--warn); } .toast.err { background: var(--danger); }
   @keyframes tin { from { transform: translateX(30px); opacity: 0; } }
@@ -297,7 +297,77 @@
     .seg button { flex: 1; padding: 9px 6px; font-size: 12.5px; }
     .group-item { flex-wrap: wrap; }
     .group-item .gn { flex-basis: 100%; }
+    .pat-layout { grid-template-columns: 1fr; }
+    .login-roles { grid-template-columns: 1fr; }
+    #userInfo { display: none !important; }
   }
+
+  /* ===== 登录门（临床版） ===== */
+  #loginGate { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(150deg, #0c2f3d 0%, #0e7490 55%, #14b8a6 130%); padding: 20px; }
+  #loginGate.hide { display: none; }
+  .login-card { background: #fff; border-radius: 18px; width: min(560px, 94vw); max-height: 92vh; overflow-y: auto;
+    padding: 30px 34px 24px; box-shadow: 0 18px 60px rgba(4, 24, 33, .45); }
+  .login-card .ttl { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .login-card .ttl .mark { width: 42px; height: 42px; border-radius: 11px; flex: none;
+    background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 17px; }
+  .login-card .ttl h1 { font-size: 19px; color: var(--primary-dark); }
+  .login-card .ttl small { display: block; font-size: 12px; color: var(--sub); font-weight: 400; margin-top: 2px; }
+  .login-roles { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 16px 0 4px; }
+  .role-opt { border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 10px; cursor: pointer; text-align: center; background: #fbfdfe; transition: .15s; }
+  .role-opt:hover { border-color: var(--accent); }
+  .role-opt.on { border-color: var(--primary); background: #f0f9fb; box-shadow: inset 0 0 0 1px var(--primary); }
+  .role-opt .rn { font-size: 14.5px; font-weight: 700; color: var(--primary-dark); }
+  .role-opt .rd { font-size: 11px; color: var(--sub); margin-top: 4px; line-height: 1.5; }
+  #loginErr { display: none; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b;
+    border-radius: 9px; padding: 9px 12px; font-size: 13px; margin-top: 12px; }
+  #loginErr.show { display: block; }
+  .login-foot { margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--line);
+    font-size: 11.5px; color: var(--sub); text-align: center; line-height: 1.7; }
+
+  /* ===== 角色徽标 ===== */
+  .badge.nurse { background: #e0e7ff; color: #3730a3; }
+  .badge.tech { background: #f1f5f9; color: #475569; }
+
+  /* ===== 治疗页 · 当前患者横幅 ===== */
+  #patBanner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+    border-radius: 12px; padding: 11px 16px; font-size: 13.5px; }
+  #patBanner.unbound { background: #fffbeb; border: 1.5px solid var(--warn); color: #92400e; }
+  #patBanner.bound { background: #f0fdfa; border: 1.5px solid var(--accent); color: #0f766e; }
+  #patBanner b { font-weight: 700; }
+  #patBanner .pb-info { flex: 1; min-width: 220px; line-height: 1.6; }
+
+  /* ===== 患者与处方页 ===== */
+  .pat-layout { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
+  .pat-item { padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px;
+    cursor: pointer; background: #fbfdfe; }
+  .pat-item:hover { border-color: var(--accent); }
+  .pat-item.cur { border-color: var(--primary); background: #f0f9fb; box-shadow: inset 3px 0 0 var(--primary); }
+  .pat-item .pi-id { font-weight: 700; color: var(--primary-dark); font-size: 14px; }
+  .pat-item .pi-sub { font-size: 12px; color: var(--sub); margin-top: 3px; }
+  .rx-item { border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px; margin-bottom: 10px; background: #fbfdfe; }
+  .rx-item .rx-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .rx-item .rx-name { font-weight: 700; color: var(--primary-dark); font-size: 14px; flex: 1; }
+  .rx-item .rx-meta { font-size: 12px; color: var(--sub); line-height: 1.7; }
+  .tag { font-size: 11.5px; font-weight: 600; padding: 2px 9px; border-radius: 999px; }
+  .tag.on { background: #dcfce7; color: #166534; }
+  .tag.off { background: #f1f5f9; color: #64748b; }
+  .role-note { border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 14px;
+    background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+  /* ===== 故障全屏警示层（报警强制响应） ===== */
+  #faultOverlay { display: none; position: fixed; inset: 0; z-index: 300; padding: 20px;
+    background: rgba(127, 29, 29, .93); align-items: center; justify-content: center; }
+  #faultOverlay.show { display: flex; }
+  .fault-box { background: #fff; border-radius: 18px; width: min(520px, 94vw); padding: 32px 30px 26px;
+    text-align: center; border-top: 8px solid var(--danger); box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  .fault-box .fb-ic { font-size: 44px; }
+  .fault-box h2 { color: var(--danger); font-size: 20px; margin: 10px 0 12px; }
+  .fault-box p { font-size: 14px; line-height: 1.8; color: #334155; }
+  #faultText { font-weight: 700; color: #991b1b; }
+  .fault-box .fb-sub { font-size: 12.5px; color: var(--sub); margin: 10px 0 20px; }
+  #btnFaultAck { background: var(--danger); color: #fff; width: 100%; }
 </style>
 </head>
 <body>
@@ -310,26 +380,33 @@
       <div>胃电刺激治疗系统 <small>GES-100 · 经皮干扰电治疗</small></div>
     </div>
     <div class="spacer"></div>
-    <span id="roleBadge" class="badge patient">患者模式</span>
+    <span id="userInfo" style="display:none;font-size:13px;color:var(--sub);white-space:nowrap"></span>
+    <span id="roleBadge" class="badge st-idle">未登录</span>
+    <button class="btn btn-ghost btn-sm" id="btnLogoutTop" style="display:none">退出登录</button>
+    <button id="btnInstall" class="btn-install">⤓ 安装应用</button>
     <span id="stBadge" class="badge st-idle">待机</span>
     <span id="clock">--:--:--</span>
   </header>
 
   <!-- ============ 侧栏 ============ -->
   <aside>
-    <button class="nav-item active" data-view="treatment">
+    <button class="nav-item" data-view="patients" data-roles="doctor nurse tech">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+      患者与处方
+    </button>
+    <button class="nav-item active" data-view="treatment" data-roles="doctor nurse tech patient">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
       治疗
     </button>
-    <button class="nav-item" data-view="feedback">
+    <button class="nav-item" data-view="feedback" data-roles="doctor nurse patient">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.6-9.5-9C.7 8.6 2.7 5 6.2 5c2 0 3.4 1 4.3 2.4L12 9l1.5-1.6C14.4 6 15.8 5 17.8 5c3.5 0 5.5 3.6 3.7 7-2.5 4.4-9.5 9-9.5 9z"/></svg>
       感受反馈
     </button>
-    <button class="nav-item" data-view="records">
+    <button class="nav-item" data-view="records" data-roles="doctor nurse tech patient">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>
       记录与导出
     </button>
-    <button class="nav-item" data-view="settings">
+    <button class="nav-item" data-view="settings" data-roles="doctor nurse tech patient">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5c.1-.4.1-.8.1-1.2z"/></svg>
       设置
     </button>
@@ -339,11 +416,37 @@
   <!-- ============ 主区 ============ -->
   <main>
 
+    <!-- ===== 患者与处方 ===== -->
+    <section class="view" id="view-patients">
+      <div class="role-note" id="nursePatNote" style="display:none">护士账号：处方由医生下发，仅可查看。</div>
+      <div class="pat-layout">
+        <div class="card">
+          <h3><span class="dot"></span>患者列表</h3>
+          <div class="field">
+            <input type="text" id="patSearch" placeholder="按 ID / 姓名搜索">
+          </div>
+          <div id="patList"></div>
+          <button class="btn btn-primary btn-sm" id="btnNewPatient" style="margin-top:10px">＋ 新建患者</button>
+        </div>
+        <div class="card" id="patDetail">
+          <h3><span class="dot"></span>患者详情与处方</h3>
+          <div id="patDetailBody"><div class="empty">请从左侧选择一位患者</div></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== 治疗 ===== -->
     <section class="view active" id="view-treatment">
       <div id="alarmBar">
         <span class="ic">⚠</span><b id="alarmText">--</b>
         <button class="btn btn-sm" id="btnAck">确认报警</button>
+      </div>
+
+      <div class="role-note" id="techTreatNote" style="display:none">维护账号无治疗操作权限，仅可查看设备状态。治疗操作请使用医生或护士账号登录。</div>
+
+      <div id="patBanner" class="unbound">
+        <span class="pb-info" id="patBannerInfo"><b>未选择患者</b> —— 开始治疗前必须绑定患者 ID</span>
+        <button class="btn btn-primary btn-sm" id="btnBindPat">选择患者</button>
       </div>
 
       <div class="treat-grid">
@@ -373,6 +476,7 @@
           <div class="intensity">
             <div class="top">
               <span class="val"><span id="intVal">0.0</span><small> mA 刺激强度</small></span>
+              <span class="cap" id="rxCapTag" style="display:none;color:var(--warn)">强度上限（处方）：<b id="rxCapVal">--</b> mA</span>
               <span class="cap">医生设定上限：<b id="intCap">--</b> mA</span>
             </div>
             <div class="int-row">
@@ -472,9 +576,10 @@
       </div>
       <div class="sec"><h2>刺激日志</h2>
         <div class="card">
-          <div style="display:flex;gap:10px;margin-bottom:12px">
+          <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
             <button class="btn btn-primary btn-sm" id="btnExpCsv">导出治疗记录 CSV</button>
             <button class="btn btn-ghost btn-sm" id="btnExpJson">导出全量备份 JSON</button>
+            <input type="text" id="logFilter" placeholder="按患者 ID / 姓名筛选" style="width:200px">
             <span class="spacer"></span>
           </div>
           <table id="logTable"></table>
@@ -484,7 +589,11 @@
 
     <!-- ===== 设置 ===== -->
     <section class="view" id="view-settings">
-      <!-- 患者视角 -->
+      <div class="sec"><h2>当前登录身份</h2>
+        <div class="card" style="max-width:760px" id="sessCard"></div>
+      </div>
+
+      <!-- 护士只读视角 -->
       <div id="patSettings">
         <div class="sec"><h2>处方概览（只读）</h2>
           <div class="card" style="max-width:760px">
@@ -493,21 +602,14 @@
             <div class="preset-line"><span>单次时长 / 每日上限</span><b id="sLen">--</b></div>
             <div class="preset-line"><span>强度上限</span><b id="sCap">--</b></div>
             <div class="preset-line"><span>处方锁定</span><b id="sLock">--</b></div>
-            <div class="note">核心参数由医生设定并锁定。如需调整频率差、脉宽、治疗时长等，请联系医生在“医生模式”下修改。</div>
-          </div>
-        </div>
-        <div class="sec"><h2>医生模式</h2>
-          <div class="card lockbox" style="max-width:760px">
-            <div class="ic">🔒</div>
-            <p style="color:var(--sub);margin-bottom:16px">频率差、脉宽、治疗时长等核心参数需医生登录后调整。<br>登录与修改均写入审计追踪。</p>
-            <button class="btn btn-primary btn-lg" id="btnDocLogin">医生登录</button>
+            <div class="note">核心参数由医生设定并锁定。如需调整频率差、脉宽、治疗时长等，请联系医生修改；治疗参数以医生下发的处方为准。</div>
           </div>
         </div>
       </div>
 
       <!-- 医生视角 -->
       <div id="docSettings" style="display:none">
-        <div class="sec"><h2>治疗模式与波形引擎 <span class="doc-only-label">医生模式</span></h2>
+        <div class="sec"><h2>治疗模式与波形引擎 <span class="doc-only-label">医生</span></h2>
           <div class="card" style="max-width:860px">
             <div class="field"><label>输出模式</label>
               <div class="seg" id="modeSeg">
@@ -597,7 +699,7 @@
 
         <div class="sec"><h2>演示 / 验证工具</h2>
           <div class="card" style="max-width:860px">
-            <div class="note" style="margin-bottom:10px">用于演示与可用性测试的联锁触发模拟（仅原型提供）：</div>
+            <div class="note" style="margin-bottom:10px">用于演示与可用性测试的联锁触发模拟（仅原型提供，仅医生可见）：</div>
             <div style="display:flex;gap:10px">
               <button class="btn btn-sm" id="simNormal" style="border:1px solid var(--line)">恢复正常电极</button>
               <button class="btn btn-sm" id="simOpen" style="border:1px solid var(--danger);color:var(--danger)">模拟电极脱落（阻抗过高）</button>
@@ -605,13 +707,15 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <!-- 审计追踪（医生 / 维护可见） -->
+      <div id="auditSettings" style="display:none">
         <div class="sec"><h2>审计追踪</h2>
           <div class="card" style="max-width:980px">
             <div style="display:flex;gap:10px;margin-bottom:12px">
               <button class="btn btn-primary btn-sm" id="btnExpAudit">导出审计追踪 CSV</button>
               <span class="spacer"></span>
-              <button class="btn btn-ghost btn-sm" id="btnDocLogout">退出医生模式</button>
             </div>
             <table id="auditTable"></table>
           </div>
@@ -629,6 +733,43 @@
     <span class="spacer"></span>
     <span>界面原型 · 仅用于设计评审与可用性测试 · 不具备实际治疗功能</span>
   </footer>
+</div>
+
+<!-- 登录门（临床受控访问） -->
+<div id="loginGate">
+  <div class="login-card">
+    <div class="ttl">
+      <div class="mark">GE</div>
+      <div><h1>胃电刺激治疗系统 GES-100 · 临床版</h1><small>受控临床数据系统 · 操作全程审计追踪</small></div>
+    </div>
+    <div class="login-roles" id="loginRoles">
+      <div class="role-opt on" data-r="doctor"><div class="rn">医生</div><div class="rd">管理患者与处方<br>调整治疗参数</div></div>
+      <div class="role-opt" data-r="nurse"><div class="rn">护士</div><div class="rd">执行治疗操作<br>录入症状评分</div></div>
+      <div class="role-opt" data-r="tech"><div class="rn">维护工程师</div><div class="rd">设备维护<br>查看系统与审计</div></div>
+    </div>
+    <div class="field"><label>姓名 / 工号</label><input type="text" id="loginName" placeholder="请输入姓名或工号（必填）" autocomplete="off"></div>
+    <div class="field"><label>口令</label><input type="password" id="loginPwd" placeholder="请输入口令"></div>
+    <div class="note">原型演示口令：医生 1234 · 护士 2222 · 维护 3333。连续输错 3 次将锁定 30 秒。</div>
+    <div id="loginErr"></div>
+    <div class="acts" style="display:flex;justify-content:flex-end;margin-top:16px">
+      <button class="btn btn-primary btn-lg" id="btnLogin" style="width:100%">登 录</button>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <a href="javascript:void 0" id="lnkPatientDemo" style="color:var(--primary);font-size:13px;text-decoration:none;border-bottom:1px dashed var(--primary)">患者自助演示入口（免登录，不能开始受控治疗）→</a>
+    </div>
+    <div class="login-foot">界面原型，仅用于设计评审与可用性测试 · 登录状态不保留，刷新后需重新登录 · 180 秒无操作自动注销</div>
+  </div>
+</div>
+
+<!-- 故障全屏警示层（须确认后方可继续操作） -->
+<div id="faultOverlay">
+  <div class="fault-box">
+    <div class="fb-ic">⚠</div>
+    <h2>安全联锁触发 · 输出已切断</h2>
+    <p id="faultText">--</p>
+    <p class="fb-sub">请立即检查电极贴附与患者状态。排除故障后必须点击「确认已处理」方可继续操作，确认动作将写入审计追踪。</p>
+    <button class="btn btn-lg" id="btnFaultAck">确认已处理</button>
+  </div>
 </div>
 
 <!-- 模态 -->
@@ -675,10 +816,22 @@ const DEFAULT_GROUPS = {
   '夜间模式': { mode: 'IFE', df: 10, tensFreq: 80,  pw: 300, phase: 0, maxCurrent: 12, sessionMin: 60, dailyLimit: 1, autoCal: true },
 };
 let groups = store.load('ges_groups', DEFAULT_GROUPS);
-let settings = Object.assign({ activeGroup: '餐前模式', locked: false }, groups['餐前模式'], store.load('ges_settings', {}));
+let settings = Object.assign({ activeGroup: '餐前模式', locked: false, zHigh: 60, zLow: 0.8 }, groups['餐前模式'], store.load('ges_settings', {}));
 let logs = store.load('ges_logs', []);
 let auditL = store.load('ges_audit', []);
 let vasL = store.load('ges_vas', []);
+
+/* ---------- 临床数据：患者档案与处方（localStorage 即数据库） ---------- */
+const DEFAULT_PATIENTS = [
+  { id: 'P001', name: '张三', gender: '男', birth: '1968-03-12', diagnosis: '糖尿病性胃轻瘫', contact: '138****0001', createdAt: '2024-01-15 09:00:00', createdBy: '医生·王医生' },
+];
+const DEFAULT_RX = [
+  { id: 'RX2024001', patientId: 'P001', doctorName: '王医生', name: '标准胃起搏方案（餐前模式）', df: 40, tensFreq: 100, pw: 250, phase: 0, maxCurrent: 15, sessionMin: 30, ceiling: 15, createdAt: '2024-01-15 09:20:00', active: true },
+];
+let patients = store.load('ges_patients', DEFAULT_PATIENTS);
+let rxL = store.load('ges_rx', DEFAULT_RX);
+const savePatients = () => store.save('ges_patients', patients);
+const saveRx = () => store.save('ges_rx', rxL);
 
 const saveSettings = () => store.save('ges_settings', settings);
 const saveGroups = () => store.save('ges_groups', groups);
@@ -686,7 +839,8 @@ const saveGroups = () => store.save('ges_groups', groups);
 /* ---------- 运行时状态 ---------- */
 const rt = {
   state: 'idle',            // idle | rampup | running | paused | rampdown | fault
-  role: 'patient',
+  session: null,            // { role: 'doctor'|'nurse'|'tech', name, loginTime }，刷新不保留
+  bound: null,              // 当前绑定患者 { patientId, rxId }
   intensity: 0, setIntensity: 6, peak: 0,
   elapsed: 0, remain: 0,
   z1: 10, z2: 11, sim: 'normal',
@@ -694,6 +848,11 @@ const rt = {
   events: [], currentLog: null,
   alarm: null, alarmAck: false,
 };
+
+/* ---------- 角色与权限 ---------- */
+const ROLE_TXT = { doctor: '医生', nurse: '护士', tech: '维护', patient: '患者' };
+const actor = () => rt.session ? ROLE_TXT[rt.session.role] + '·' + rt.session.name : '系统';
+const canTreat = () => !!(rt.session && (rt.session.role === 'doctor' || rt.session.role === 'nurse'));
 
 /* ---------- toast / modal / 声音 ---------- */
 function toast(msg, type = '') {
@@ -771,14 +930,29 @@ function renderControls() {
   $('#ring').style.strokeDashoffset = C * (1 - clamp(prog, 0, 1));
   $('#ring').style.stroke = s === 'fault' ? 'var(--danger)' : (s === 'paused' ? 'var(--warn)' : 'var(--primary)');
 
-  $('#btnMinus').disabled = $('#btnPlus').disabled = (s === 'fault' || rt.role !== 'patient' && false);
+  const ct = canTreat();
+  $('#btnStart').disabled = false;   // 保持可点击，越权时由处理器给出明确引导
+  $('#btnMinus').disabled = $('#btnPlus').disabled = (s === 'fault' || !ct);
   renderIntensity(); renderAlarm();
 }
 
+/* 有效强度上限：已绑定处方时取处方上限与设备上限的较小值 */
+function effCap() {
+  if (rt.bound && rt.bound.rxId) {
+    const r = rxL.find(x => x.id === rt.bound.rxId && x.active);
+    if (r) return Math.min(r.ceiling, settings.maxCurrent);
+  }
+  return settings.maxCurrent;
+}
+
 function renderIntensity() {
+  const cap = effCap();
   $('#intVal').textContent = rt.setIntensity.toFixed(1);
   $('#intCap').textContent = settings.maxCurrent.toFixed(1);
-  $('#intBar').style.width = clamp(rt.setIntensity / settings.maxCurrent * 100, 0, 100) + '%';
+  $('#intBar').style.width = clamp(rt.setIntensity / cap * 100, 0, 100) + '%';
+  const boundRx = rt.bound && rt.bound.rxId ? rxL.find(x => x.id === rt.bound.rxId && x.active) : null;
+  $('#rxCapTag').style.display = boundRx ? '' : 'none';
+  if (boundRx) $('#rxCapVal').textContent = boundRx.ceiling.toFixed(1);
 }
 
 function renderAlarm() {
@@ -789,7 +963,25 @@ function renderAlarm() {
     $('#alarmText').textContent = (rt.alarmAck ? '[已确认·待排除] ' : '') + rt.alarm;
     $('#btnAck').style.display = rt.alarmAck ? 'none' : '';
   } else bar.classList.remove('show');
+  renderFaultOverlay();
 }
+
+/* 报警强制响应：故障状态下未确认时弹出全屏红色警示层 */
+function renderFaultOverlay() {
+  const ov = $('#faultOverlay');
+  if (rt.state === 'fault' && rt.alarm && !rt.alarmAck) {
+    $('#faultText').textContent = rt.alarm;
+    ov.classList.add('show');
+  } else ov.classList.remove('show');
+}
+$('#btnFaultAck').addEventListener('click', () => {
+  if (rt.alarm && !rt.alarmAck) {
+    rt.alarmAck = true;
+    addAudit(actor(), '报警确认', '安全联锁', rt.alarm, '已确认并现场处理');
+  }
+  renderAlarm();
+  toast('报警已确认，请排除故障后点击「重新检测电极」', 'ok');
+});
 
 function updateOutput() {
   rt.peak = Math.max(rt.peak, rt.intensity);
@@ -863,9 +1055,14 @@ function tripFault() {
   toast('安全联锁触发，输出已切断！', 'err');
 }
 
-$('#btnAck').addEventListener('click', () => { rt.alarmAck = true; renderAlarm(); });
+$('#btnAck').addEventListener('click', () => {
+  rt.alarmAck = true;
+  addAudit(actor(), '报警确认', '安全联锁', rt.alarm || '', '已确认并现场处理');
+  renderAlarm();
+});
 
 $('#btnRecheck').addEventListener('click', function () {
+  if (rt.alarm && !rt.alarmAck) { toast('请先点击「确认已处理」响应报警', 'warn'); return; }
   this.disabled = true; this.textContent = '检测中…';
   setTimeout(() => {
     this.disabled = false; this.textContent = '重新检测电极';
@@ -903,24 +1100,32 @@ function startSession() {
     id: Date.now(), date: todayStr(), start: ts(new Date()),
     plannedSec: settings.sessionMin * 60,
     params: { mode: settings.mode, df: settings.df, tensFreq: settings.tensFreq, pw: settings.pw, phase: settings.phase, group: settings.activeGroup },
+    patientId: rt.bound ? rt.bound.patientId : '',
+    patientName: rt.bound ? (patients.find(p => p.id === rt.bound.patientId) || {}).name || '' : '',
+    rxId: rt.bound ? rt.bound.rxId || '' : '',
+    operatorRole: rt.session ? ROLE_TXT[rt.session.role] : '',
+    operatorName: rt.session ? rt.session.name : '',
     status: '治疗中'
   };
   rt.elapsed = 0; rt.remain = settings.sessionMin * 60;
   rt.events = ['开始治疗（' + settings.activeGroup + '）']; rt.peak = 0; rt.zSum1 = rt.zSum2 = 0; rt.zN = 0;
+  addAudit(actor(), '开始治疗', '患者 ' + rt.currentLog.patientId, '', settings.activeGroup + ' · 计划 ' + settings.sessionMin + ' min');
   setState('rampup');
   startRamp(true, () => { if (rt.state === 'rampup') setState('running'); });
   toast('软启动完成前请保持静止，如有不适请立即暂停或停止', 'ok');
 }
 
-function pauseSession() { setState('paused'); addEvent('暂停'); addAudit('患者', '暂停治疗', '会话', '运行', '暂停'); }
-function resumeSession() { setState('running'); addEvent('恢复'); addAudit('患者', '恢复治疗', '会话', '暂停', '运行'); }
+function pauseSession() { setState('paused'); addEvent('暂停'); addAudit(actor(), '暂停治疗', '会话', '运行', '暂停'); }
+function resumeSession() { setState('running'); addEvent('恢复'); addAudit(actor(), '恢复治疗', '会话', '暂停', '运行'); }
 
 function stopSession() {
   if (rt.state === 'rampdown' || rt.state === 'idle' || rt.state === 'fault') return;
   setState('rampdown');
+  const pid = rt.currentLog ? rt.currentLog.patientId : '';
   startRamp(false, () => {
     addEvent('手动停止（软停止完成）');
     finalizeLog('中断');
+    addAudit(actor(), '治疗结束', '患者 ' + (pid || '--'), '', '手动停止（中断）· 实际 ' + Math.round(rt.elapsed / 60) + ' min');
     toast('治疗已安全停止，输出归零', 'warn');
     setState('idle');
   });
@@ -933,6 +1138,7 @@ function completeSession() {
     finalizeLog('完成');
     setState('idle');
     const L = logs[0];
+    addAudit(actor(), '治疗结束', '患者 ' + (L.patientId || '--'), '', '完成 · 实际 ' + Math.round(L.actualSec / 60) + ' min · 峰值 ' + L.intensityPeak.toFixed(1) + ' mA');
     openModal('<h2>✅ 本次治疗已完成</h2>' +
       '<div class="preset-line"><span>实际治疗时长</span><b>' + Math.round(L.actualSec / 60) + ' 分钟</b></div>' +
       '<div class="preset-line"><span>峰值强度</span><b>' + L.intensityPeak.toFixed(1) + ' mA</b></div>' +
@@ -957,11 +1163,22 @@ function finalizeLog(status) {
   rt.currentLog = null;
 }
 
-/* ---------- 强度微调（患者权限内） ---------- */
+/* ---------- 强度微调（处方上限钳制） ---------- */
 function adjIntensity(d) {
   if (rt.state === 'fault') { toast('故障状态下不可调节强度', 'warn'); return; }
-  const v = clamp(+(rt.setIntensity + d).toFixed(1), 0, settings.maxCurrent);
-  if (v === rt.setIntensity) { toast(d > 0 ? '已达医生设定的强度上限 ' + settings.maxCurrent + ' mA' : '强度已为最低值 0', 'warn'); return; }
+  const cap = effCap();
+  const req = +(rt.setIntensity + d).toFixed(1);
+  if (d > 0 && req > cap) {
+    if (rt.bound && rt.bound.rxId && cap < settings.maxCurrent) {
+      toast('已达处方强度上限 ' + cap + ' mA' + (rt.session && rt.session.role === 'doctor' ? '，如需提高需修改处方' : ''), 'warn');
+      addAudit(actor(), '强度调节越限尝试', '刺激强度', rt.setIntensity.toFixed(1) + ' mA', '请求 ' + req.toFixed(1) + ' mA（处方上限 ' + cap + ' mA）');
+    } else {
+      toast('已达医生设定的强度上限 ' + settings.maxCurrent + ' mA', 'warn');
+    }
+    return;
+  }
+  const v = clamp(req, 0, cap);
+  if (v === rt.setIntensity) { toast('强度已为最低值 0', 'warn'); return; }
   rt.setIntensity = v;
   addEvent('强度调整 → ' + v.toFixed(1) + ' mA');
   if (rt.state === 'running') startRamp(true, () => {});   // 平滑过渡到新目标
@@ -971,7 +1188,40 @@ $('#btnMinus').addEventListener('click', () => adjIntensity(-0.5));
 $('#btnPlus').addEventListener('click', () => adjIntensity(0.5));
 
 /* ---------- 电极贴放引导 + 预检（治疗启动流程） ---------- */
+function guideModal(title, body) {
+  openModal('<h2>' + title + '</h2>' +
+    '<div class="note" style="line-height:2;font-size:13.5px;color:#334155">' + body + '</div>' +
+    '<div class="acts"><button class="btn btn-primary" onclick="closeModal()">知道了</button></div>');
+}
 $('#btnStart').addEventListener('click', () => {
+  if (!rt.session) {
+    addAudit('系统', '流程拦截', '开始治疗', '', '未登录，已拦截');
+    guideModal('请先登录', '系统处于未登录状态。受控治疗必须由<b>医生或护士</b>登录后操作。');
+    return;
+  }
+  if (rt.session.role === 'patient') {
+    addAudit(actor(), '流程拦截', '开始治疗', '', '患者自助演示模式无治疗权限，已拦截');
+    guideModal('受控模式需医护人员登录', '患者自助演示模式仅用于浏览界面与录入症状评分。<br>开始受控治疗需由<b>医生或护士</b>登录，并完成：绑定患者 → 核验有效处方 → 电极预检。');
+    return;
+  }
+  if (!canTreat()) {
+    addAudit(actor(), '流程拦截', '开始治疗', '', '维护账号无治疗操作权限，已拦截');
+    guideModal('无治疗操作权限', '维护工程师账号仅用于设备维护与状态查看。<br>治疗操作请使用<b>医生或护士</b>账号登录。');
+    return;
+  }
+  if (!rt.bound) {
+    addAudit(actor(), '流程拦截', '开始治疗', '', '未绑定患者，已拦截');
+    guideModal('未绑定患者', '开始治疗前必须先绑定患者 ID。<br>请点击治疗页顶部「选择患者」，输入就诊卡号 / 住院号检索，或使用「扫码模拟」。');
+    return;
+  }
+  const boundRx = activeRxOf(rt.bound.patientId);
+  if (!boundRx) {
+    addAudit(actor(), '流程拦截', '开始治疗', '患者 ' + rt.bound.patientId, '无有效处方，已拦截');
+    guideModal('该患者无有效处方', '患者 <b>' + rt.bound.patientId + '</b> 暂无医生下发的有效处方，不能开始治疗。<br>请联系医生在「患者与处方」页下发处方后再试。');
+    return;
+  }
+  rt.bound.rxId = boundRx.id;   // 同步该患者最新有效处方
+  renderIntensity();
   openModal(
     '<h2>第 1 步 · 电极贴放位置引导</h2>' +
     '<div class="guide-flex" style="display:flex;gap:20px;align-items:flex-start">' +
@@ -1105,6 +1355,12 @@ window.addEventListener('resize', () => drawWave(0));
 /* ---------- 视图切换 ---------- */
 rt.currentView = 'treatment';
 function switchView(name) {
+  const nb = $('.nav-item[data-view="' + name + '"]');
+  if (rt.session && nb && nb.dataset.roles && nb.dataset.roles.split(' ').indexOf(rt.session.role) < 0) {
+    toast('当前角色（' + ROLE_TXT[rt.session.role] + '）无权访问该页面', 'warn');
+    addAudit(actor(), '越权访问尝试', '页面 ' + name, '', '已拦截');
+    return;
+  }
   rt.currentView = name;
   $$('.view').forEach(v => v.classList.remove('active'));
   $('#view-' + name).classList.add('active');
@@ -1112,6 +1368,7 @@ function switchView(name) {
   if (name === 'records') renderRecords();
   if (name === 'feedback') renderVas();
   if (name === 'settings') renderSettings();
+  if (name === 'patients') renderPatients();
 }
 $$('.nav-item').forEach(b => b.addEventListener('click', () => switchView(b.dataset.view)));
 
@@ -1123,7 +1380,7 @@ $('#btnSaveVas').addEventListener('click', () => {
   vasL.unshift({ time: ts(new Date()), phase: $('#vasPhase').value, nausea: +$('#vasN').value, bloating: +$('#vasB').value, early: +$('#vasE').value });
   if (vasL.length > 200) vasL.length = 200;
   store.save('ges_vas', vasL);
-  addAudit(rt.role === 'doctor' ? '医生' : '患者', '保存症状评分', 'VAS', '', '恶心' + $('#vasN').value + '/腹胀' + $('#vasB').value + '/早饱' + $('#vasE').value + '（' + $('#vasPhase').value + '）');
+  addAudit(actor(), '保存症状评分', 'VAS', '', '恶心' + $('#vasN').value + '/腹胀' + $('#vasB').value + '/早饱' + $('#vasE').value + '（' + $('#vasPhase').value + '）');
   toast('评分已保存，可在记录页导出', 'ok');
   renderVas();
 });
@@ -1159,18 +1416,25 @@ function renderRecords() {
   $('#compBars').innerHTML = bars;
 
   const tb = $('#logTable');
-  tb.classList.toggle('is-empty', !logs.length);
-  if (!logs.length) { tb.innerHTML = '<tr><td class="empty">暂无治疗记录 · 完成一次治疗后将自动生成刺激日志</td></tr>'; return; }
-  tb.innerHTML = '<tr><th>开始时间</th><th>状态</th><th>计划/实际</th><th>参数</th><th>峰值强度</th><th>平均阻抗 (kΩ)</th><th>事件</th></tr>' +
-    logs.slice(0, 20).map(L =>
+  const f = ($('#logFilter').value || '').trim().toLowerCase();
+  const shown = logs.filter(L => !f ||
+    (L.patientId || '').toLowerCase().indexOf(f) >= 0 ||
+    (L.patientName || '').toLowerCase().indexOf(f) >= 0);
+  tb.classList.toggle('is-empty', !shown.length);
+  if (!shown.length) { tb.innerHTML = '<tr><td class="empty">' + (logs.length ? '无匹配该患者的记录' : '暂无治疗记录 · 完成一次治疗后将自动生成刺激日志') + '</td></tr>'; return; }
+  tb.innerHTML = '<tr><th>开始时间</th><th>患者</th><th>状态</th><th>计划/实际</th><th>参数</th><th>峰值强度</th><th>平均阻抗 (kΩ)</th><th>操作者</th><th>事件</th></tr>' +
+    shown.slice(0, 20).map(L =>
       '<tr><td>' + L.start + '</td>' +
+      '<td>' + (L.patientId ? L.patientId + ' ' + (L.patientName || '') : '—') + '</td>' +
       '<td class="' + (L.status === '完成' ? 'tag-ok' : 'tag-bad') + '">' + L.status + '</td>' +
       '<td>' + Math.round(L.plannedSec / 60) + ' min / ' + Math.round((L.actualSec || 0) / 60) + ' min</td>' +
       '<td>' + (L.params.group || '') + ' · ' + MODE_TXT[L.params.mode].slice(0, 3) + ' · Δf ' + L.params.df + ' Hz</td>' +
       '<td>' + (L.intensityPeak || 0) + ' mA</td>' +
       '<td>' + L.zAvg1 + ' / ' + L.zAvg2 + '</td>' +
+      '<td>' + ((L.operatorRole || '') + (L.operatorName ? '·' + L.operatorName : '') || '—') + '</td>' +
       '<td title="' + (L.events || []).join('；') + '">' + (L.events ? L.events.length : 0) + ' 条</td></tr>').join('');
 }
+$('#logFilter').addEventListener('input', renderRecords);
 
 function download(name, content, mime) {
   const b = new Blob([content], { type: mime });
@@ -1181,19 +1445,20 @@ function download(name, content, mime) {
 const csvCell = v => '"' + String(v === undefined || v === null ? '' : v).replace(/"/g, '""') + '"';
 $('#btnExpCsv').addEventListener('click', () => {
   if (!logs.length) { toast('暂无记录可导出', 'warn'); return; }
-  let s = '\ufeff序号,日期,开始时间,结束时间,状态,计划时长(min),实际时长(min),参数组,模式,差频(Hz),脉宽(μs),相位差(°),峰值强度(mA),CH1平均阻抗(kΩ),CH2平均阻抗(kΩ),事件\n';
+  let s = '\ufeff序号,日期,患者ID,患者姓名,开始时间,结束时间,状态,计划时长(min),实际时长(min),参数组/处方,模式,差频(Hz),脉宽(μs),相位差(°),峰值强度(mA),CH1平均阻抗(kΩ),CH2平均阻抗(kΩ),操作者角色,操作者姓名,事件\n';
   logs.forEach((L, i) => {
-    s += [i + 1, L.date, L.start, L.end, L.status, Math.round(L.plannedSec / 60), Math.round((L.actualSec || 0) / 60),
+    s += [i + 1, L.date, L.patientId || '', L.patientName || '', L.start, L.end, L.status, Math.round(L.plannedSec / 60), Math.round((L.actualSec || 0) / 60),
       L.params.group, L.params.mode, L.params.df, L.params.pw, L.params.phase, L.intensityPeak, L.zAvg1, L.zAvg2,
+      L.operatorRole || '', L.operatorName || '',
       (L.events || []).join('；')].map(csvCell).join(',') + '\n';
   });
   download('GES治疗记录_' + todayStr() + '.csv', s, 'text/csv');
-  addAudit(rt.role === 'doctor' ? '医生' : '患者', '数据导出', '治疗记录 CSV', '', logs.length + ' 条');
+  addAudit(actor(), '数据导出', '治疗记录 CSV', '', logs.length + ' 条');
 });
 $('#btnExpJson').addEventListener('click', () => {
   download('GES全量备份_' + todayStr() + '.json',
-    JSON.stringify({ exportedAt: ts(new Date()), settings, groups, logs, audit: auditL, vas: vasL }, null, 2), 'application/json');
-  toast('已导出全量备份（参数、日志、审计、评分）', 'ok');
+    JSON.stringify({ exportedAt: ts(new Date()), settings, groups, logs, audit: auditL, vas: vasL, patients, rx: rxL }, null, 2), 'application/json');
+  toast('已导出全量备份（参数、日志、审计、评分、患者与处方）', 'ok');
 });
 $('#btnExpAudit').addEventListener('click', () => {
   let s = '\ufeff时间,操作者,操作,对象,变更前,变更后\n';
@@ -1203,12 +1468,27 @@ $('#btnExpAudit').addEventListener('click', () => {
 
 /* ---------- 设置（分级权限） ---------- */
 function renderSettings() {
-  const doc = rt.role === 'doctor';
-  $('#patSettings').style.display = doc ? 'none' : '';
+  const role = rt.session ? rt.session.role : null;
+  const doc = role === 'doctor';
+  $('#patSettings').style.display = (role === 'nurse' || role === 'patient') ? '' : 'none';
   $('#docSettings').style.display = doc ? '' : 'none';
-  $('#roleBadge').textContent = doc ? '医生模式' : '患者模式';
-  $('#roleBadge').className = 'badge ' + (doc ? 'doctor' : 'patient');
-  if (!doc) { renderPreset(); return; }
+  $('#auditSettings').style.display = (doc || role === 'tech') ? '' : 'none';
+
+  // 当前登录身份卡
+  const sc = $('#sessCard');
+  if (rt.session) {
+    sc.innerHTML =
+      '<div class="preset-line"><span>角色</span><b>' + ROLE_TXT[role] + '</b></div>' +
+      '<div class="preset-line"><span>姓名</span><b>' + rt.session.name + '</b></div>' +
+      '<div class="preset-line"><span>登录时间</span><b>' + rt.session.loginTime + '</b></div>' +
+      '<div class="note" style="margin-top:8px">180 秒无操作将自动注销；刷新页面需重新登录。所有操作均写入审计追踪。</div>' +
+      '<div style="margin-top:14px;text-align:right"><button class="btn btn-danger btn-sm" id="btnLogout">退出登录</button></div>';
+    $('#btnLogout').addEventListener('click', () => doLogout(false));
+  } else {
+    sc.innerHTML = '<div class="empty">未登录</div>';
+  }
+
+  if (!doc) { renderPreset(); if (role === 'tech') renderAuditTable(); return; }
 
   // 同步滑杆与数值
   Object.keys(PARAM_DEFS).forEach(k => {
@@ -1234,7 +1514,7 @@ function applyParam(key, raw) {
   settings[key] = v;
   settings.activeGroup = '自定义（未保存）';
   saveSettings();
-  addAudit('医生', '参数调整', def.label + ' (' + def.unit + ')', old, v);
+  addAudit(actor(), '参数调整', def.label + ' (' + def.unit + ')', old, v);
   renderSettings();
   toast(def.label + '：' + old + ' → ' + v + ' ' + def.unit + '（已写入审计追踪）', 'ok');
 }
@@ -1244,17 +1524,17 @@ $$('#modeSeg button').forEach(b => b.addEventListener('click', () => {
   if (settings.mode === b.dataset.m) return;
   const old = settings.mode;
   settings.mode = b.dataset.m; settings.activeGroup = '自定义（未保存）'; saveSettings();
-  addAudit('医生', '模式切换', '输出模式', MODE_TXT[old], MODE_TXT[settings.mode]);
+  addAudit(actor(), '模式切换', '输出模式', MODE_TXT[old], MODE_TXT[settings.mode]);
   renderSettings();
 }));
 $('#swCal').addEventListener('change', function () {
   const old = settings.autoCal; settings.autoCal = this.checked; saveSettings();
-  addAudit('医生', '参数调整', '阻抗动态校准', old ? '开启' : '关闭', this.checked ? '开启' : '关闭');
+  addAudit(actor(), '参数调整', '阻抗动态校准', old ? '开启' : '关闭', this.checked ? '开启' : '关闭');
   renderSettings();
 });
 $('#swLock').addEventListener('change', function () {
   settings.locked = this.checked; saveSettings();
-  addAudit('医生', '处方锁定', '处方', this.checked ? '未锁定' : '已锁定', this.checked ? '已锁定' : '未锁定');
+  addAudit(actor(), '处方锁定', '处方', this.checked ? '未锁定' : '已锁定', this.checked ? '已锁定' : '未锁定');
   toast(this.checked ? '处方已锁定：参数组不可切换或删除' : '处方锁定已解除', 'ok');
   renderGroups();
 });
@@ -1278,7 +1558,7 @@ function applyGroup(name) {
   const old = settings.activeGroup;
   Object.assign(settings, groups[name], { activeGroup: name });
   saveSettings();
-  addAudit('医生', '参数组应用', '参数组', old, name);
+  addAudit(actor(), '参数组应用', '参数组', old, name);
   toast('已应用参数组「' + name + '」', 'ok');
   renderSettings();
 }
@@ -1286,7 +1566,7 @@ function delGroup(name) {
   if (settings.locked) { toast('处方已锁定', 'warn'); return; }
   if (Object.keys(groups).length <= 1) { toast('至少保留一个参数组', 'warn'); return; }
   delete groups[name]; saveGroups();
-  addAudit('医生', '参数组删除', '参数组', name, '（已删除）');
+  addAudit(actor(), '参数组删除', '参数组', name, '（已删除）');
   renderGroups();
 }
 $('#btnSaveGroup').addEventListener('click', () => {
@@ -1296,50 +1576,339 @@ $('#btnSaveGroup').addEventListener('click', () => {
     maxCurrent: settings.maxCurrent, sessionMin: settings.sessionMin, dailyLimit: settings.dailyLimit, autoCal: settings.autoCal };
   settings.activeGroup = name; saveSettings(); saveGroups();
   $('#groupName').value = '';
-  addAudit('医生', '参数组保存', '参数组', '', name);
+  addAudit(actor(), '参数组保存', '参数组', '', name);
   toast('参数组「' + name + '」已保存', 'ok');
   renderGroups();
 });
 
-/* 医生登录（3 次失败锁定 30 秒） */
-let loginTries = 0, lockUntil = 0;
-$('#btnDocLogin').addEventListener('click', () => {
-  if (Date.now() < lockUntil) { toast('已临时锁定，请 ' + Math.ceil((lockUntil - Date.now()) / 1000) + ' 秒后重试', 'warn'); return; }
-  openModal('<h2>医生模式登录</h2>' +
-    '<div class="field"><label>操作口令</label><input type="password" id="docPwd" placeholder="请输入医生口令（原型默认：1234）" autofocus></div>' +
-    '<div class="note warn">连续输错 3 次将临时锁定 30 秒。登录及后续参数修改均写入审计追踪。</div>' +
-    '<div class="acts"><button class="btn btn-ghost" onclick="closeModal()">取消</button>' +
-    '<button class="btn btn-primary" id="btnDoLogin">登录</button></div>');
-  $('#btnDoLogin').addEventListener('click', doLogin);
-  $('#docPwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-  setTimeout(() => $('#docPwd').focus(), 60);
-});
+/* ---------- 登录系统（医生 / 护士 / 维护工程师 + 患者自助演示） ---------- */
+const LOGIN_PWD = { doctor: '1234', nurse: '2222', tech: '3333' };
+const IDLE_MS = 180000;            // 3 分钟无操作自动注销
+let loginTries = 0, lockUntil = 0, selRole = 'doctor', idleTimer = null;
+const esc = s => String(s === undefined || s === null ? '' : s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+$$('#loginRoles .role-opt').forEach(o => o.addEventListener('click', () => {
+  selRole = o.dataset.r;
+  $$('#loginRoles .role-opt').forEach(x => x.classList.toggle('on', x === o));
+  $('#loginErr').classList.remove('show');
+}));
+function loginErr(msg) { const e = $('#loginErr'); e.textContent = msg; e.classList.add('show'); }
+
 function doLogin() {
-  const v = $('#docPwd').value;
-  if (v === '1234') {
+  if (Date.now() < lockUntil) { loginErr('口令连续错误 3 次，已锁定，请 ' + Math.ceil((lockUntil - Date.now()) / 1000) + ' 秒后重试'); return; }
+  const name = $('#loginName').value.trim();
+  const pwd = $('#loginPwd').value;
+  if (!name) { loginErr('请输入姓名 / 工号'); return; }
+  if (pwd === LOGIN_PWD[selRole]) {
     loginTries = 0;
-    rt.role = 'doctor';
-    addAudit('医生', '医生登录', '权限', '患者模式', '医生模式');
-    closeModal(); toast('已进入医生模式，核心参数解锁', 'ok');
-    renderSettings();
+    rt.session = { role: selRole, name: name, loginTime: ts(new Date()) };
+    addAudit(actor(), '登录', '会话', '', ROLE_TXT[selRole] + '·' + name + ' 登录成功');
+    $('#loginErr').classList.remove('show');
+    $('#loginPwd').value = '';
+    toast(ROLE_TXT[selRole] + ' ' + name + '，欢迎登录', 'ok');
+    enterApp();
   } else {
     loginTries++;
-    addAudit('未知', '登录失败', '医生口令', '', '第 ' + loginTries + ' 次错误');
-    if (loginTries >= 3) { lockUntil = Date.now() + 30000; loginTries = 0; closeModal(); toast('口令错误 3 次，医生登录已临时锁定 30 秒', 'err'); }
-    else toast('口令错误，还可尝试 ' + (3 - loginTries) + ' 次', 'err');
+    addAudit(ROLE_TXT[selRole] + '·' + name, '登录失败', '口令校验', '', '第 ' + loginTries + ' 次错误');
+    if (loginTries >= 3) { lockUntil = Date.now() + 30000; loginTries = 0; loginErr('口令连续错误 3 次，登录已锁定 30 秒'); }
+    else loginErr('口令错误，还可尝试 ' + (3 - loginTries) + ' 次');
   }
 }
-$('#btnDocLogout').addEventListener('click', () => {
-  addAudit('医生', '退出登录', '权限', '医生模式', '患者模式');
-  rt.role = 'patient';
-  toast('已退出医生模式', 'ok');
-  renderSettings();
+$('#btnLogin').addEventListener('click', doLogin);
+$('#loginPwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+$('#loginName').addEventListener('keydown', e => { if (e.key === 'Enter') $('#loginPwd').focus(); });
+
+$('#lnkPatientDemo').addEventListener('click', () => {
+  rt.session = { role: 'patient', name: '自助演示', loginTime: ts(new Date()) };
+  addAudit('患者·自助演示', '进入患者自助演示', '会话', '', '免登录演示模式');
+  toast('已进入患者自助演示：可浏览界面，受控治疗需医护人员登录', 'ok');
+  enterApp();
 });
+
+function enterApp() {
+  $('#loginGate').classList.add('hide');
+  updateHeader(); renderControls(); renderPatBanner(); renderIntensity();
+  if (rt.currentView === 'settings') renderSettings();
+  if (rt.currentView === 'patients') renderPatients();
+  resetIdle();
+}
+
+function doLogout(auto) {
+  if (!rt.session) return;
+  if (rt.state === 'running' || rt.state === 'paused' || rt.state === 'rampup' || rt.state === 'rampdown') {
+    toast('治疗进行中，请先停止治疗再退出登录', 'warn');
+    if (auto) resetIdle();
+    return;
+  }
+  addAudit(actor(), auto ? '自动注销' : '退出登录', '会话',
+    ROLE_TXT[rt.session.role] + '·' + rt.session.name, auto ? '180 秒无操作' : '手动退出');
+  rt.session = null; rt.bound = null;
+  clearTimeout(idleTimer); idleTimer = null;
+  closeModal();
+  $('#loginGate').classList.remove('hide');
+  updateHeader(); renderControls(); renderPatBanner(); renderIntensity();
+}
+$('#btnLogoutTop').addEventListener('click', () => doLogout(false));
+
+function resetIdle() {
+  clearTimeout(idleTimer);
+  if (rt.session) idleTimer = setTimeout(() => { doLogout(true); }, IDLE_MS);
+}
+['click', 'keydown'].forEach(ev => document.addEventListener(ev, resetIdle, true));
+
+function updateHeader() {
+  const rb = $('#roleBadge'), ui = $('#userInfo'), lo = $('#btnLogoutTop');
+  if (rt.session) {
+    rb.textContent = ROLE_TXT[rt.session.role];
+    rb.className = 'badge ' + rt.session.role;
+    ui.textContent = '当前用户：' + ROLE_TXT[rt.session.role] + ' · ' + rt.session.name;
+    ui.style.display = ''; lo.style.display = '';
+  } else {
+    rb.textContent = '未登录'; rb.className = 'badge st-idle';
+    ui.textContent = ''; ui.style.display = 'none'; lo.style.display = 'none';
+  }
+  $('#techTreatNote').style.display = (rt.session && rt.session.role === 'tech') ? '' : 'none';
+}
+
+/* ---------- 患者绑定（治疗门禁核心） ---------- */
+function activeRxOf(pid) { return rxL.find(r => r.patientId === pid && r.active) || null; }
+
+function renderPatBanner() {
+  const bn = $('#patBanner'), info = $('#patBannerInfo');
+  if (rt.bound) {
+    const p = patients.find(x => x.id === rt.bound.patientId);
+    const rx = activeRxOf(rt.bound.patientId);
+    bn.className = 'bound';
+    info.innerHTML = '<b>当前患者：' + esc(rt.bound.patientId) + ' · ' + esc(p ? p.name : '未知') + '</b>' +
+      (p && p.diagnosis ? '（' + esc(p.diagnosis) + '）' : '') + '<br>' +
+      (rx ? '有效处方：' + esc(rx.name) + ' · 强度上限 ' + rx.ceiling + ' mA · 单次 ' + rx.sessionMin + ' min'
+          : '<span style="color:var(--danger);font-weight:700">无有效处方 —— 不能开始治疗，请联系医生下发</span>');
+    $('#btnBindPat').textContent = '更换患者';
+  } else {
+    bn.className = 'unbound';
+    info.innerHTML = '<b>未选择患者</b> —— 开始治疗前必须绑定患者 ID';
+    $('#btnBindPat').textContent = '选择患者';
+  }
+}
+
+$('#btnBindPat').addEventListener('click', () => {
+  if (!rt.session || rt.session.role === 'patient') {
+    guideModal('受控操作需医护人员登录', '绑定患者属于受控治疗流程，请由<b>医生或护士</b>登录后操作。');
+    return;
+  }
+  if (rt.session.role === 'tech') { toast('维护账号无需绑定患者', 'warn'); return; }
+  if (rt.state !== 'idle') { toast('治疗进行中，不可更换患者', 'warn'); return; }
+  openModal('<h2>选择 / 绑定患者</h2>' +
+    (rt.bound ? '<div class="note" style="margin-bottom:10px">当前已绑定：<b>' + esc(rt.bound.patientId) + '</b>，重新绑定将覆盖。</div>' : '') +
+    '<div class="field"><label>患者 ID（就诊卡号 / 住院号）</label>' +
+    '<input type="text" id="bindId" placeholder="如 P001，输入后回车检索" autocomplete="off"></div>' +
+    '<div style="display:flex;gap:10px;margin-bottom:12px">' +
+    '<button class="btn btn-primary btn-sm" id="btnFindPat">检索</button>' +
+    '<button class="btn btn-ghost btn-sm" id="btnScanSim">扫码模拟（填入 P001）</button></div>' +
+    '<div id="bindResult"></div>' +
+    '<div class="acts"><button class="btn btn-ghost" onclick="closeModal()">关闭</button></div>');
+  const doFind = () => {
+    const q = $('#bindId').value.trim().toLowerCase();
+    const box = $('#bindResult');
+    if (!q) { box.innerHTML = ''; return; }
+    const p = patients.find(x => x.id.toLowerCase() === q) || patients.find(x => x.name.toLowerCase().indexOf(q) >= 0);
+    if (!p) { box.innerHTML = '<div class="empty">未找到 ID / 姓名匹配的患者，请在「患者与处方」页建档</div>'; return; }
+    const rx = activeRxOf(p.id);
+    box.innerHTML = '<div class="rx-item"><div class="rx-head"><span class="rx-name">' + esc(p.id) + ' · ' + esc(p.name) + '</span>' +
+      '<span class="tag ' + (rx ? 'on">有有效处方' : 'off">无有效处方') + '</span></div>' +
+      '<div class="rx-meta">' + esc(p.gender || '--') + ' · ' + esc(p.birth || '--') + ' · ' + esc(p.diagnosis || '未填写诊断') +
+      (rx ? '<br>处方：' + esc(rx.name) + ' · 上限 ' + rx.ceiling + ' mA · ' + rx.sessionMin + ' min' : '') + '</div>' +
+      '<div style="text-align:right;margin-top:8px"><button class="btn btn-go btn-sm" id="btnDoBind">绑定该患者</button></div></div>';
+    $('#btnDoBind').addEventListener('click', () => {
+      rt.bound = { patientId: p.id, rxId: rx ? rx.id : '' };
+      addAudit(actor(), '绑定患者', '治疗会话', '', p.id + ' ' + p.name + (rx ? ' · 处方 ' + rx.id : ' · 无有效处方'));
+      renderPatBanner(); renderIntensity();
+      closeModal();
+      toast('已绑定患者 ' + p.id + ' ' + p.name, 'ok');
+    });
+  };
+  $('#btnFindPat').addEventListener('click', doFind);
+  $('#bindId').addEventListener('keydown', e => { if (e.key === 'Enter') doFind(); });
+  $('#btnScanSim').addEventListener('click', () => { $('#bindId').value = 'P001'; doFind(); });
+  setTimeout(() => { const b = $('#bindId'); if (b) b.focus(); }, 60);
+});
+
+/* ---------- 患者档案与处方管理 ---------- */
+let patSel = null;
+
+function renderPatients() {
+  const role = rt.session ? rt.session.role : null;
+  const doc = role === 'doctor';
+  $('#btnNewPatient').style.display = doc ? '' : 'none';
+  const note = $('#nursePatNote');
+  if (role === 'nurse' || role === 'tech') {
+    note.style.display = '';
+    note.textContent = ROLE_TXT[role] + '账号：患者档案与处方由医生维护，仅可查看。';
+  } else note.style.display = 'none';
+
+  const f = ($('#patSearch').value || '').trim().toLowerCase();
+  const list = patients.filter(p => !f || p.id.toLowerCase().indexOf(f) >= 0 || p.name.toLowerCase().indexOf(f) >= 0);
+  $('#patList').innerHTML = list.length ? list.map(p => {
+    const rx = activeRxOf(p.id);
+    return '<div class="pat-item' + (patSel === p.id ? ' cur' : '') + '" data-pid="' + esc(p.id) + '">' +
+      '<div class="pi-id">' + esc(p.id) + ' · ' + esc(p.name) + '</div>' +
+      '<div class="pi-sub">' + esc(p.gender || '--') + ' · ' + esc(p.diagnosis || '未填写诊断') + '</div>' +
+      '<div class="pi-sub">' + (rx ? '有效处方：' + esc(rx.name) : '无有效处方') + '</div></div>';
+  }).join('') : '<div class="empty">未找到匹配患者</div>';
+  $$('#patList .pat-item').forEach(el => el.addEventListener('click', () => { patSel = el.dataset.pid; renderPatients(); }));
+  renderPatDetail();
+}
+
+function renderPatDetail() {
+  const box = $('#patDetailBody');
+  const p = patients.find(x => x.id === patSel);
+  if (!p) { box.innerHTML = '<div class="empty">请从左侧选择一位患者</div>'; return; }
+  const doc = rt.session && rt.session.role === 'doctor';
+  const rxs = rxL.filter(r => r.patientId === p.id);
+  let h = '<div class="preset-line"><span>患者 ID</span><b>' + esc(p.id) + '</b></div>' +
+    '<div class="preset-line"><span>姓名</span><b>' + esc(p.name) + '</b></div>' +
+    '<div class="preset-line"><span>性别 / 出生日期</span><b>' + esc(p.gender || '--') + ' / ' + esc(p.birth || '--') + '</b></div>' +
+    '<div class="preset-line"><span>诊断</span><b>' + esc(p.diagnosis || '--') + '</b></div>' +
+    '<div class="preset-line"><span>联系方式</span><b>' + esc(p.contact || '--') + '</b></div>' +
+    '<div class="preset-line"><span>建档</span><b>' + esc(p.createdAt || '--') + ' · ' + esc(p.createdBy || '--') + '</b></div>';
+  if (doc) h += '<div style="display:flex;gap:10px;margin:14px 0 4px">' +
+    '<button class="btn btn-primary btn-sm" id="btnEditPat">编辑档案</button>' +
+    '<button class="btn btn-go btn-sm" id="btnNewRx">下发新处方</button></div>';
+  h += '<h3 style="margin-top:16px"><span class="dot"></span>处方记录（' + rxs.length + '）</h3>';
+  h += rxs.length ? rxs.map(r =>
+    '<div class="rx-item"><div class="rx-head"><span class="rx-name">' + esc(r.name) + '</span>' +
+    '<span class="tag ' + (r.active ? 'on">当前有效' : 'off">已替换') + '</span></div>' +
+    '<div class="rx-meta">Δf ' + r.df + ' Hz · TENS ' + r.tensFreq + ' Hz · 脉宽 ' + r.pw + ' μs · 相位 ' + r.phase + '° · 单次 ' + r.sessionMin + ' min · 强度上限 <b>' + r.ceiling + ' mA</b><br>' +
+    '下发：' + esc(r.createdAt) + ' · 医生：' + esc(r.doctorName || '--') + (r.replacedAt ? '<br>被替换：' + esc(r.replacedAt) : '') + '</div></div>').join('')
+    : '<div class="empty">暂无处方记录' + (doc ? '，可点击上方「下发新处方」' : '') + '</div>';
+  h += '<div class="note" style="margin-top:10px">患者档案依据合规要求不可删除，仅可修订；全部变更写入审计追踪。</div>';
+  box.innerHTML = h;
+  if (doc) {
+    $('#btnEditPat').addEventListener('click', () => openPatModal(p));
+    $('#btnNewRx').addEventListener('click', () => openRxModal(p));
+  }
+}
+$('#patSearch').addEventListener('input', renderPatients);
+$('#btnNewPatient').addEventListener('click', () => openPatModal(null));
+
+function nextPatId() {
+  let n = patients.length + 1, id;
+  do { id = 'P' + String(n).padStart(3, '0'); n++; } while (patients.some(p => p.id === id));
+  return id;
+}
+
+function openPatModal(p) {
+  if (!rt.session || rt.session.role !== 'doctor') { toast('仅医生可新建 / 编辑患者档案', 'warn'); return; }
+  const isNew = !p;
+  openModal('<h2>' + (isNew ? '新建患者档案' : '编辑患者档案') + '</h2>' +
+    '<div class="grid2">' +
+    '<div class="field"><label>患者 ID（就诊卡号 / 住院号）</label><input type="text" id="pfId" value="' + esc(isNew ? nextPatId() : p.id) + '"' + (isNew ? '' : ' disabled') + '></div>' +
+    '<div class="field"><label>姓名（必填）</label><input type="text" id="pfName" value="' + esc(isNew ? '' : p.name) + '"></div></div>' +
+    '<div class="grid2">' +
+    '<div class="field"><label>性别</label><select id="pfGender">' +
+    '<option' + (!isNew && p.gender === '男' ? ' selected' : '') + '>男</option>' +
+    '<option' + (!isNew && p.gender === '女' ? ' selected' : '') + '>女</option></select></div>' +
+    '<div class="field"><label>出生日期</label><input type="text" id="pfBirth" placeholder="YYYY-MM-DD" value="' + esc(!isNew && p.birth ? p.birth : '') + '"></div></div>' +
+    '<div class="field"><label>诊断</label><input type="text" id="pfDiag" placeholder="如：糖尿病性胃轻瘫" value="' + esc(!isNew && p.diagnosis ? p.diagnosis : '') + '"></div>' +
+    '<div class="field"><label>联系方式</label><input type="text" id="pfContact" value="' + esc(!isNew && p.contact ? p.contact : '') + '"></div>' +
+    '<div class="note">患者档案一经建立不可删除（合规要求），仅可修订；所有变更写入审计追踪。</div>' +
+    '<div class="acts"><button class="btn btn-ghost" onclick="closeModal()">取消</button>' +
+    '<button class="btn btn-primary" id="pfSave">保存档案</button></div>');
+  $('#pfSave').addEventListener('click', () => {
+    const id = $('#pfId').value.trim(), name = $('#pfName').value.trim();
+    if (!id) { toast('患者 ID 不能为空', 'warn'); return; }
+    if (!name) { toast('请输入患者姓名', 'warn'); return; }
+    if (isNew && patients.some(x => x.id === id)) { toast('患者 ID「' + id + '」已存在，请更换', 'err'); return; }
+    const rec = {
+      id: id, name: name, gender: $('#pfGender').value,
+      birth: $('#pfBirth').value.trim(), diagnosis: $('#pfDiag').value.trim(), contact: $('#pfContact').value.trim()
+    };
+    if (isNew) {
+      rec.createdAt = ts(new Date()); rec.createdBy = actor();
+      patients.push(rec);
+      addAudit(actor(), '患者建档', '患者 ' + id, '', name + ' · ' + (rec.diagnosis || '未填写诊断'));
+      toast('患者档案已建立：' + id + ' ' + name, 'ok');
+    } else {
+      const old = patients.find(x => x.id === p.id);
+      const oldDesc = old.name + ' · ' + (old.diagnosis || '--');
+      Object.assign(old, rec);
+      addAudit(actor(), '患者编辑', '患者 ' + p.id, oldDesc, name + ' · ' + (rec.diagnosis || '--'));
+      toast('患者档案已更新', 'ok');
+    }
+    savePatients(); patSel = id;
+    closeModal(); renderPatients();
+  });
+}
+
+function openRxModal(p) {
+  if (!rt.session || rt.session.role !== 'doctor') { toast('仅医生可下发处方', 'warn'); return; }
+  const cur = activeRxOf(p.id);
+  const gNames = Object.keys(groups);
+  openModal('<h2>下发处方 · ' + esc(p.id) + ' ' + esc(p.name) + '</h2>' +
+    (cur ? '<div class="note warn" style="margin-bottom:12px">该患者当前已有有效处方「' + esc(cur.name) + '」（上限 ' + cur.ceiling + ' mA）。下发新处方后，旧处方将标记为「已替换」并保留历史。</div>' : '') +
+    '<div class="field"><label>处方名称</label><input type="text" id="rxName" value="' + esc(cur ? cur.name : '胃起搏标准方案') + '"></div>' +
+    '<div class="field"><label>套用参数组模板</label><select id="rxTpl"><option value="">自定义参数</option>' +
+    gNames.map(n => '<option value="' + esc(n) + '">' + esc(n) + '（Δf ' + groups[n].df + ' Hz · ' + groups[n].sessionMin + ' min · 上限 ' + groups[n].maxCurrent + ' mA）</option>').join('') +
+    '</select></div>' +
+    '<div class="grid3">' +
+    '<div class="field"><label>差频 Δf (Hz)</label><input type="number" id="rxDf" min="1" max="100" step="1" value="40"></div>' +
+    '<div class="field"><label>TENS 频率 (Hz)</label><input type="number" id="rxTf" min="1" max="150" step="1" value="100"></div>' +
+    '<div class="field"><label>脉宽 (μs)</label><input type="number" id="rxPw" min="50" max="1000" step="10" value="250"></div></div>' +
+    '<div class="grid3">' +
+    '<div class="field"><label>相位差 (°)</label><input type="number" id="rxPh" min="0" max="180" step="5" value="0"></div>' +
+    '<div class="field"><label>单次时长 (min)</label><input type="number" id="rxMin" min="10" max="90" step="5" value="30"></div>' +
+    '<div class="field"><label>强度安全上限 (mA)</label><input type="number" id="rxCap" min="1" max="40" step="0.5" value="15"></div></div>' +
+    '<div class="note warn">强度安全上限将强制约束治疗中的强度调节，操作端不可逾越（设备硬限幅 40 mA）。</div>' +
+    '<div class="acts"><button class="btn btn-ghost" onclick="closeModal()">取消</button>' +
+    '<button class="btn btn-primary" id="rxGo">下发处方</button></div>');
+  $('#rxTpl').addEventListener('change', function () {
+    const g = groups[this.value]; if (!g) return;
+    $('#rxDf').value = g.df; $('#rxTf').value = g.tensFreq; $('#rxPw').value = g.pw;
+    $('#rxPh').value = g.phase; $('#rxMin').value = g.sessionMin; $('#rxCap').value = g.maxCurrent;
+  });
+  $('#rxGo').addEventListener('click', () => {
+    const name = $('#rxName').value.trim();
+    if (!name) { toast('请输入处方名称', 'warn'); return; }
+    const df = clamp(Math.round(+$('#rxDf').value) || 40, HARD.dfMin, HARD.dfMax);
+    const tf = clamp(Math.round(+$('#rxTf').value) || 100, 1, HARD.tensFreqMax);
+    const pw = clamp(Math.round(+$('#rxPw').value) || 250, HARD.pwMin, HARD.pwMax);
+    const ph = clamp(Math.round(+$('#rxPh').value) || 0, 0, HARD.phaseMax);
+    const min = clamp(Math.round(+$('#rxMin').value) || 30, 10, HARD.sessionMax);
+    const cap = clamp(+(+$('#rxCap').value).toFixed(1) || 15, 1, HARD.currentMax);
+    // 二次确认
+    openModal('<h2>确认下发处方</h2>' +
+      '<div class="preset-line"><span>患者</span><b>' + esc(p.id) + ' ' + esc(p.name) + '</b></div>' +
+      '<div class="preset-line"><span>处方名称</span><b>' + esc(name) + '</b></div>' +
+      '<div class="preset-line"><span>参数</span><b>Δf ' + df + ' Hz · TENS ' + tf + ' Hz · 脉宽 ' + pw + ' μs · 相位 ' + ph + '°</b></div>' +
+      '<div class="preset-line"><span>单次时长</span><b>' + min + ' min</b></div>' +
+      '<div class="preset-line"><span>强度安全上限</span><b>' + cap + ' mA</b></div>' +
+      (cur ? '<div class="note warn" style="margin-top:10px">确认后，当前有效处方「' + esc(cur.name) + '」将被标记为「已替换」。</div>' : '') +
+      '<div class="acts"><button class="btn btn-ghost" onclick="closeModal()">再想想</button>' +
+      '<button class="btn btn-danger" id="rxConfirm">确认下发</button></div>');
+    $('#rxConfirm').addEventListener('click', () => {
+      if (cur) {
+        cur.active = false; cur.replacedAt = ts(new Date());
+        addAudit(actor(), '处方替换', '患者 ' + p.id, cur.name + '（上限 ' + cur.ceiling + ' mA）', '标记为已替换');
+      }
+      const rx = {
+        id: 'RX' + Date.now(), patientId: p.id, doctorName: rt.session.name, name: name,
+        df: df, tensFreq: tf, pw: pw, phase: ph, maxCurrent: cap, sessionMin: min, ceiling: cap,
+        createdAt: ts(new Date()), active: true
+      };
+      rxL.unshift(rx); saveRx();
+      addAudit(actor(), '处方下发', '患者 ' + p.id + ' ' + p.name, '', name + ' · 上限 ' + cap + ' mA · ' + min + ' min');
+      if (rt.bound && rt.bound.patientId === p.id) { rt.bound.rxId = rx.id; renderPatBanner(); renderIntensity(); }
+      closeModal(); renderPatients();
+      toast('处方已下发并生效', 'ok');
+    });
+  });
+}
 
 /* 演示工具：模拟电极异常 */
 $('#simNormal').addEventListener('click', () => { rt.sim = 'normal'; toast('电极状态恢复正常', 'ok'); });
-$('#simOpen').addEventListener('click', () => { rt.sim = 'open'; addAudit('医生', '演示模拟', '电极接触', '正常', '阻抗过高'); toast('已模拟电极脱落，若在输出中将触发联锁', 'warn'); });
-$('#simShort').addEventListener('click', () => { rt.sim = 'short'; addAudit('医生', '演示模拟', '电极接触', '正常', '阻抗过低'); toast('已模拟电极短路，若在输出中将触发联锁', 'warn'); });
+$('#simOpen').addEventListener('click', () => { rt.sim = 'open'; addAudit(actor(), '演示模拟', '电极接触', '正常', '阻抗过高'); toast('已模拟电极脱落，若在输出中将触发联锁', 'warn'); });
+$('#simShort').addEventListener('click', () => { rt.sim = 'short'; addAudit(actor(), '演示模拟', '电极接触', '正常', '阻抗过低'); toast('已模拟电极短路，若在输出中将触发联锁', 'warn'); });
 
 /* 审计表 */
 function renderAuditTable() {
@@ -1353,8 +1922,12 @@ function renderAuditTable() {
 
 /* ---------- 初始化（故障安全：上电输出为 0） ---------- */
 (function init() {
+  // 首次启动种入演示患者与演示处方，保证演示流程可跑通
+  if (!localStorage.getItem('ges_patients')) savePatients();
+  if (!localStorage.getItem('ges_rx')) saveRx();
   rt.intensity = 0;
   renderStatus(); renderControls(); renderChannels(); renderPreset();
+  renderPatBanner(); updateHeader();
   $('#clock').textContent = ts(new Date()).slice(11);
   addAudit('系统', '上电自检', '故障安全', '', '复位完成，输出 0 mA');
 })();
